@@ -10,6 +10,15 @@ public class PlayerController : MonoBehaviour
     Vector2 mov;
     public float speed;
 
+    [Header("Espadas")]
+    public Sword curSword;
+    public string curSwordName;
+    public string curSwordDescription;
+    public int curSwordMinAtk;
+    public int curSwordMaxAtk;
+    public int curSwordType;
+    
+
     public bool canAttack = true;
     public bool canMove = true;
     public bool canTurn = true;
@@ -32,6 +41,10 @@ public class PlayerController : MonoBehaviour
         rgbd = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         //GetComponent<SpriteRenderer>().flipX = false;
+        if(curSword != null)
+        {
+            UpdateSwordAttributes();
+        }
     }
 
     // Update is called once per frame
@@ -97,6 +110,12 @@ public class PlayerController : MonoBehaviour
 		if(col.tag == "Bounds"){
 			CameraB.Instance.SetBounds(col.GetComponent<BoxCollider2D>());
 		}
+        if(col.tag == "Buraco")
+        {
+            canMove = false;
+            transform.position = col.transform.position;
+            anim.SetTrigger("Fall");
+        }
 	}
 
     void CheckAttack()
@@ -158,6 +177,16 @@ public class PlayerController : MonoBehaviour
             canTurn = true;
             canMove = true;
         }
+    }
+
+    public void UpdateSwordAttributes()
+    {
+        curSwordName = curSword.name;
+        curSwordDescription = curSword.description;
+        curSwordMinAtk = curSword.minAttackDamage;
+        curSwordMaxAtk = curSword.maxAttackDamage;
+        curSwordType = curSword.SwordType;
+        anim.SetFloat("CurSwordType", curSwordType);
     }
 
     IEnumerator Attack_CR()

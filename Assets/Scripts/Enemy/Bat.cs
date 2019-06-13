@@ -32,6 +32,9 @@ public class Bat : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (target == null)
+            return;
+
         Vector2 walkDir = transform.position - target.position;
         walkDir = Vector2.ClampMagnitude(walkDir,maxVelocity);
         print(walkDir.x + " - " + walkDir.y);
