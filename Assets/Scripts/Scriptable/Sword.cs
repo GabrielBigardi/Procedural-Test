@@ -9,7 +9,7 @@ public class Sword : ScriptableObject
     public string name;
     public string description;
 
-    public Sprite artwork;
+    public Sprite sprite;
 
     public int minAttackDamage;
     public int maxAttackDamage;

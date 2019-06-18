@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Long Sword
   description: "Espada longa para um combate mais f\xE1cil"
-  artwork: {fileID: 0}
+  sprite: {fileID: 21300400, guid: b1fe3cb02a46ba440a51ae0554a672c0, type: 3}
   minAttackDamage: 30
   maxAttackDamage: 50
   SwordType: 2

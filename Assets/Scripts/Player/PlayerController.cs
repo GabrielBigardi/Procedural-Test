@@ -24,11 +24,15 @@ public class PlayerController : MonoBehaviour
     public bool canTurn = true;
     public bool isAttacking = false;
     public bool isDodging = false;
+    public bool isFalling = false;
 
     public float attackTime;
     public float attackAfterPressedTime;
     public float dodgeSpeed;
     public float dodgeTime;
+
+    public float fallDirectionX;
+    public float fallDirectionY;
 
     Vector2 dodgeMov;
 
@@ -83,6 +87,11 @@ public class PlayerController : MonoBehaviour
             GetComponent<PlayerHealth>().TakeDamage(1);
         }
 
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            DropManager.Instancia.DropSword(transform.position);
+        }
+
         if (!isAttacking && !isDodging && Input.GetKeyDown(KeyCode.LeftControl))
         {
             StartCoroutine(Attack_CR());
@@ -99,6 +108,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+
         if(canMove)
             rgbd.MovePosition(rgbd.position + mov * speed * Time.deltaTime);
 
@@ -112,9 +122,73 @@ public class PlayerController : MonoBehaviour
 		}
         if(col.tag == "Buraco")
         {
+            //mov = Vector2.zero;
+            fallDirectionX = fallDirectionY = 0f;
+
+            Vector2 playerLastPos = transform.position;
+            Vector2 buracoPos = col.transform.position;
+
+            Vector2 difference = playerLastPos - buracoPos;
+
+            print("Distância X:" + difference.x + " - Distância Y:" + difference.y);
+
+            //definir se o player ta mais pro lado do que pra cima e vice versa
+            bool useX()
+            {
+                if(Mathf.Abs(difference.x) > Mathf.Abs(difference.y))
+                    return true;
+                else
+                    return false;
+            }
+            bool useY()
+            {
+                if (Mathf.Abs(difference.y) > Mathf.Abs(difference.x))
+                    return true;
+                else
+                    return false;
+            }
+
+            //definir se o ta pra cima ou pra baixo, ou se ta pro lado e pro outro
+            if (useX())
+            {
+                if(difference.x < 0f)
+                {
+                    fallDirectionX = -2f;
+                }
+                else
+                {
+                    fallDirectionX = 2f;
+                }
+            }
+
+            if (useY())
+            {
+                if (difference.y < 0f)
+                {
+                    fallDirectionY = -2f;
+                }
+                else
+                {
+                    fallDirectionY = 2f;
+                }
+            }
+
+            print("Usar X:" + useX() + " - Usar Y:" + useY());
+
+            rgbd.velocity = Vector2.zero;
+            dodgeMov = Vector2.zero;
+            mov = Vector2.zero;
             canMove = false;
+            isFalling = true;
             transform.position = col.transform.position;
             anim.SetTrigger("Fall");
+        }
+        if(col.tag == "Sword")
+        {
+            int type = col.GetComponent<SwordHolder>().swordType;
+            curSword = DropManager.Instancia.swordsList[type];
+            UpdateSwordAttributes();
+            Destroy(col.gameObject);
         }
 	}
 
@@ -131,9 +205,10 @@ public class PlayerController : MonoBehaviour
                 print("0 Acertou em: " + hit.collider.gameObject.name);
                 if (hit.collider.gameObject.GetComponent<EnemyHealth>() != null)
                 {
-                    print("Inimigo Acertado");
                     //hit.collider.gameObject.GetComponent<Animator>().SetTrigger("Hurt");
-                    hit.collider.gameObject.GetComponent<EnemyHealth>().TakeDamage(50);
+                    int randomDamage = Random.Range(curSwordMinAtk, curSwordMaxAtk);
+                    print("Inimigo Acertado com dano de:" + randomDamage);
+                    hit.collider.gameObject.GetComponent<EnemyHealth>().TakeDamage(randomDamage);
                 }
             }
         }
@@ -189,6 +264,18 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("CurSwordType", curSwordType);
     }
 
+    public void TeleportPlayer()
+    {
+        transform.position = new Vector2(transform.position.x + fallDirectionX, transform.position.y + fallDirectionY);
+    }
+
+    public void ResetMovement()
+    {
+        canMove = true;
+        canAttack = true;
+        isFalling = false;
+    }
+
     IEnumerator Attack_CR()
     {
         
@@ -235,11 +322,13 @@ public class PlayerController : MonoBehaviour
         canAttack = false;
         anim.SetTrigger("Dodge");
         yield return new WaitForSeconds(dodgeTime);
-        canAttack = true;
-        canTurn = true;
-        canMove = true;
-        isDodging = false;
-        //StopAllCoroutines();
+        if (!isFalling)
+        {
+            canAttack = true;
+            canTurn = true;
+            canMove = true;
+            isDodging = false;
+        }
     }
 
 

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Bounds
   - Buraco
+  - Sword
+  - Slime
   layers:
   - Default
   - TransparentFX

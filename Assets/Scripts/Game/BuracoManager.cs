@@ -32,7 +32,7 @@ public class BuracoManager : MonoBehaviour
             }
             else
             {
-                print("Buraco não spawnado");
+                //print("Buraco não spawnado");
                 if (curBuracos < minBuracos)
                 {
                     SpawnBuraco(buracoPos[i].position);
@@ -50,7 +50,7 @@ public class BuracoManager : MonoBehaviour
             }
             else
             {
-                print("Inimigo não spawnado");
+                //print("Inimigo não spawnado");
                 if (curInimigos < minInimigos)
                 {
                     SpawnInimigo(inimigoPos[i].position);

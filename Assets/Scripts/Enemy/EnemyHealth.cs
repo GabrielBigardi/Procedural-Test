@@ -24,6 +24,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void Destroy()
     {
+        DropManager.Instancia.DropSword(transform.position);
         Destroy(gameObject);
     }
 }

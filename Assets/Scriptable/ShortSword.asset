@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Short Sword
   description: "Espada curta por\xE9m mortal"
-  artwork: {fileID: 0}
+  sprite: {fileID: 21300398, guid: b1fe3cb02a46ba440a51ae0554a672c0, type: 3}
   minAttackDamage: 10
   maxAttackDamage: 30
   SwordType: 1

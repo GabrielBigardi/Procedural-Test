@@ -36,6 +36,21 @@ public class PlayerHealth : MonoBehaviour
         EnableLife();
     }
 
+    public void TakeFallDamage(int damage)
+    {
+        //GetComponent<Animator>().SetTrigger("Hurt");
+        curHealth -= damage;
+        if (curHealth <= 0)
+        {
+            //    GetComponent<Animator>().SetTrigger("Hurt");
+            //GetComponent<Animator>().SetBool("Death", true);
+            Time.timeScale = 0f;
+        }
+
+        DisableAllLife();
+        EnableLife();
+    }
+
     public void DisableAllLife()
     {
         for (int i = 0; i < heartImgs.Length; i++)
