@@ -18,6 +18,12 @@ public class Slime : MonoBehaviour
         return OverlapCircle1;
     }
 
+    bool attackPlayer()
+    {
+        Collider2D OverlapCircle2 = Physics2D.OverlapCircle(transform.position, attackRange, 1 << LayerMask.NameToLayer("Player"));
+        return OverlapCircle2;
+    }
+
     void Start()
     {
         target = FindObjectOfType<PlayerController>().transform;
@@ -25,11 +31,13 @@ public class Slime : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (target == null)
+            return;
 
         Vector2 walkDir = transform.position - target.position;
         walkDir = Vector2.ClampMagnitude(walkDir, maxVelocity);
 
-        if (canWalk && sawPlayer())
+        if (canWalk && sawPlayer() && !attackPlayer())
         {
             transform.Translate(-walkDir * moveSpeed * Time.deltaTime);
             if (walkDir.x < 0)
@@ -56,5 +64,8 @@ public class Slime : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, visionRange);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }

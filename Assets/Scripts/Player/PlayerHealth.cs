@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public float curHealth = 10;
+    public float maxHealth = 10;
+    public float curHealth = 3;
 
     public Sprite heartImage;
     public GameObject heartHolder;
@@ -34,6 +35,17 @@ public class PlayerHealth : MonoBehaviour
 
         DisableAllLife();
         EnableLife();
+    }
+
+    public void RecoverLive(int amountToRecover)
+    {
+        if(curHealth < maxHealth)
+        {
+            curHealth += amountToRecover;
+            DisableAllLife();
+            EnableLife();
+        }
+
     }
 
     public void TakeFallDamage(int damage)

@@ -8,6 +8,7 @@ TagManager:
   - Buraco
   - Sword
   - Slime
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -18,8 +19,8 @@ TagManager:
   - 
   - 
   - Player
-  - 
-  - 
+  - Projectile
+  - Enemy
   - 
   - 
   - 

@@ -5,15 +5,21 @@ using UnityEngine;
 public class Skeleton : MonoBehaviour
 {
     public Transform target;
+    public Transform[] instantiatePoint;
     public float moveSpeed;
     public float visionRange;
     public float attackRange;
     public float maxVelocity;
     public float minVelocity;
     public float attackTime;
+    public float bulletSpeed;
 
-    bool canWalk = true;
-    bool alreadyAttacking = false;
+    public bool canWalk = true;
+    public bool alreadyAttacking = false;
+
+    Vector2 walkDir;
+
+    Animator anim;
 
     bool sawPlayer()
     {
@@ -30,6 +36,7 @@ public class Skeleton : MonoBehaviour
     void Start()
     {
         target = FindObjectOfType<PlayerController>().transform;
+        anim = GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -37,34 +44,13 @@ public class Skeleton : MonoBehaviour
         if (target == null)
             return;
 
-        Vector2 walkDir = transform.position - target.position;
+        walkDir = transform.position - target.position;
         walkDir = Vector2.ClampMagnitude(walkDir, maxVelocity);
-        //print(walkDir.x + " - " + walkDir.y);
-
-        ////impoe velocidade minima
-        //if (walkDir.x > 0f && walkDir.x < minVelocity) // se a direção x for maior do que 0 (positivo) e for menor do que a velocidade minima (3f)
-        //    walkDir.x = minVelocity; // a direção x é igual a velocidade minima
-        //if (walkDir.y > 0f && walkDir.y < minVelocity) // se a direção y for maior do que 0 (positivo) e for menor do que a velocidade minima (3f)
-        //    walkDir.y = minVelocity; // a direção y é igual a velocidade minima
-        //if (walkDir.x < 0f && walkDir.x > -minVelocity) // se a direção x for menor do que 0 (negativo) e for maior do que -velocidade minima (-3f)
-        //    walkDir.x = -minVelocity; // a direção x é igual a -velocidade minima
-        //if (walkDir.y < 0f && walkDir.y > -minVelocity) // se a direção y for menor do que 0 (negativo) e for maior do que -velocidade minima (-3f)
-        //    walkDir.y = -minVelocity; // a direção y é igual a -velocidade minima
-        //
-        //
-        ////limita velocidade maxima
-        //if (walkDir.x > 0f && walkDir.x > maxVelocity) // se a direção x for positiva e for maior do que a velocidade maxima (3f)
-        //    walkDir.x = maxVelocity; // a direção x é igual a velocidade maxima
-        //if (walkDir.y > 0f && walkDir.y > maxVelocity) // se a direção y for positiva e for maior do que a velocidade maxima (3f)
-        //    walkDir.y = maxVelocity; // a direção y é igual a velocidade maxima
-        //if (walkDir.x < 0f && walkDir.x < -maxVelocity) // se a direção x for negativa e for menor do que -velocidade maxima (3f)
-        //    walkDir.x = -maxVelocity; // a direção x é igual a -velocidade maxima
-        //if (walkDir.y < 0f && walkDir.y < -maxVelocity) // se a direção y for negativa e for meno do que -velocidade maxima (3f)
-        //    walkDir.y =- maxVelocity; // a direção y é igual a -velocidade maxima
 
         if (canWalk && sawPlayer() && !attackPlayer())
         {
             transform.Translate(-walkDir * moveSpeed * Time.deltaTime);
+            anim.SetBool("Walk", true);
             if (walkDir.x < 0f)
             {
                 GetComponent<SpriteRenderer>().flipX = false;
@@ -74,9 +60,15 @@ public class Skeleton : MonoBehaviour
                 GetComponent<SpriteRenderer>().flipX = true;
             }
         }
+        else
+        {
+            anim.SetBool("Walk", false);
+        }
 
         if (attackPlayer() && !alreadyAttacking)
         {
+            
+
             StartCoroutine("Attack_CR");
         }
 
@@ -84,19 +76,75 @@ public class Skeleton : MonoBehaviour
 
     public void SpawnProjectile(Transform prefab)
     {
-        Transform go = Instantiate(prefab,transform.position,Quaternion.identity,transform);
+        Vector3 distance = (target.position - transform.position);
+        bool spawnRight = distance.x < 0f ? true : false;
 
+        //Vector3 rotation = new Vector3(distance.x, distance.y,distance.z);
+        Transform go;
+
+        if(spawnRight)
+            go = Instantiate(prefab, instantiatePoint[0].position, Quaternion.identity, transform);
+        else
+            go = Instantiate(prefab, instantiatePoint[1].position, Quaternion.identity, transform);
+
+        go.LookAt(target);
+
+        float ZRotation = go.eulerAngles.x;
+
+        if (spawnRight)
+        {
+            go.eulerAngles = new Vector3(0f,0f,ZRotation);
+            go.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else
+        {
+            go.eulerAngles = new Vector3(0f, 0f, -ZRotation);
+            go.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        //Vector3 goDir = Vector3.RotateTowards(go.position, target.position, 0f, 90f);
+        //go.LookAt(target.position);
+
+        //if (spawnRight)
+        //{
+        //go.GetComponent<SpriteRenderer>().flipX = false;
+        //}
+        //else
+        //{
+        //go.GetComponent<SpriteRenderer>().flipX = true;
+        //}
+
+        go.GetComponent<Rigidbody2D>().AddForce(-walkDir * bulletSpeed, ForceMode2D.Impulse);
     }
 
     IEnumerator Attack_CR()
     {
-        alreadyAttacking = true;
-        while (attackPlayer())
+        
+        while (true)
          {
-            Debug.Log("Atacou");
-            GetComponent<Animator>().SetTrigger("Attack");
-            yield return new WaitForSeconds(attackTime);
-            
+            if (walkDir.x < 0f)
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
+            if (walkDir.x > 0f)
+            {
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
+
+            if (attackPlayer())
+            {
+                alreadyAttacking = true;
+                canWalk = false;
+                Debug.Log("Atacou");
+                GetComponent<Animator>().SetTrigger("Attack");
+                yield return new WaitForSeconds(attackTime);
+            }
+            else
+            {
+                print("Saiu da coroutine de ataque");
+                canWalk = true;
+                alreadyAttacking = false;
+                yield break;
+            }
         }
     }
 

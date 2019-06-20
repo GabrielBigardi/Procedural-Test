@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     public float fallDirectionX;
     public float fallDirectionY;
 
+    public float chargebackAmount;
+
     Vector2 dodgeMov;
 
 
@@ -87,6 +89,11 @@ public class PlayerController : MonoBehaviour
             GetComponent<PlayerHealth>().TakeDamage(1);
         }
 
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            GetComponent<PlayerHealth>().RecoverLive(1);
+        }
+
         if (Input.GetKeyDown(KeyCode.L))
         {
             DropManager.Instancia.DropSword(transform.position);
@@ -130,7 +137,7 @@ public class PlayerController : MonoBehaviour
 
             Vector2 difference = playerLastPos - buracoPos;
 
-            print("Distância X:" + difference.x + " - Distância Y:" + difference.y);
+            //print("Distância X:" + difference.x + " - Distância Y:" + difference.y);
 
             //definir se o player ta mais pro lado do que pra cima e vice versa
             bool useX()
@@ -173,7 +180,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            print("Usar X:" + useX() + " - Usar Y:" + useY());
+            //print("Usar X:" + useX() + " - Usar Y:" + useY());
 
             rgbd.velocity = Vector2.zero;
             dodgeMov = Vector2.zero;
@@ -189,6 +196,13 @@ public class PlayerController : MonoBehaviour
             curSword = DropManager.Instancia.swordsList[type];
             UpdateSwordAttributes();
             Destroy(col.gameObject);
+        }
+        if(col.tag == "Slime")
+        {
+            print("slime aefkaeflçeafklç");
+            GetComponent<PlayerHealth>().TakeDamage(1);
+            //Vector2 direction = col.transform.position - transform.position;
+            //ChargeBack(direction * chargebackAmount);
         }
 	}
 
@@ -275,6 +289,11 @@ public class PlayerController : MonoBehaviour
         canAttack = true;
         isFalling = false;
     }
+
+    //public void ChargeBack(Vector2 direction)
+    //{
+    //    transform.position = -direction;
+    //}
 
     IEnumerator Attack_CR()
     {
