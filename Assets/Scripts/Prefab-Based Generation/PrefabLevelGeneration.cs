@@ -130,7 +130,8 @@ public class PrefabLevelGeneration : MonoBehaviour
             Vector2 drawPos = room.gridPos;
             drawPos.x *= 40f;
             drawPos.y *= 20f;
-            MapPrefabSelector mapper = Object.Instantiate(roomWhiteObj, drawPos, Quaternion.identity, generatedLevelHolder).GetComponent<MapPrefabSelector>();
+            MapPrefabSelector mapper = Object.Instantiate(roomWhiteObj, drawPos, Quaternion.identity).GetComponent<MapPrefabSelector>();
+            //MapPrefabSelector mapper = Object.Instantiate(roomWhiteObj, drawPos, Quaternion.identity, generatedLevelHolder).GetComponent<MapPrefabSelector>();
             mapper.type = room.type;
             mapper.up = room.doorTop;
             mapper.down = room.doorBot;

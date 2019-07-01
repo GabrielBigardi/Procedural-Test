@@ -129,6 +129,11 @@ public class PlayerController : MonoBehaviour
     }
 	
 	void OnTriggerEnter2D(Collider2D col){
+        if(col.tag == "Prefab1")
+        {
+            GameObject go = col.transform.GetChild(0).gameObject;
+            go.SetActive(true);
+        }
 		if(col.tag == "Bounds"){
 			CameraB.Instance.SetBounds(col.GetComponent<BoxCollider2D>());
             col.GetComponent<BoundActivate>().SpawnRoom();
@@ -228,12 +233,12 @@ public class PlayerController : MonoBehaviour
                     break;
 
                 case "Up":
-                    tempPos = new Vector2(transform.position.x, transform.position.y + 15f);
+                    tempPos = new Vector2(transform.position.x, transform.position.y + 10f);
                     StartCoroutine(ChangeRoom_CR(tempPos));
                     break;
 
                 case "Down":
-                    tempPos = new Vector2(transform.position.x, transform.position.y - 15f);
+                    tempPos = new Vector2(transform.position.x, transform.position.y - 10f);
                     StartCoroutine(ChangeRoom_CR(tempPos));
                     break;
 
@@ -244,6 +249,19 @@ public class PlayerController : MonoBehaviour
             
         }
 	}
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.tag == "Prefab1")
+        {
+            GameObject go = col.transform.GetChild(0).gameObject;
+            go.SetActive(false);
+
+            print("saiu da colisao");
+        }
+            
+            // col.gameObject.SetActive(false);
+    }
 
     void CheckAttack()
     {
@@ -346,8 +364,11 @@ public class PlayerController : MonoBehaviour
     public IEnumerator ChangeRoom_CR(Vector2 position)
     {
         //fica preto
-        yield return new WaitForSeconds(1f);
+        FadeManager.Instance.FadeIN();
+        yield return new WaitForSeconds(0.5f);
         transform.position = position;
+        yield return new WaitForSeconds(0.5f);
+        FadeManager.Instance.FadeOUT();
         //fica normal
 
     }

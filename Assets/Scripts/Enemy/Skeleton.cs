@@ -133,13 +133,13 @@ public class Skeleton : MonoBehaviour
             {
                 alreadyAttacking = true;
                 canWalk = false;
-                Debug.Log("Atacou");
+                //Debug.Log("Atacou");
                 GetComponent<Animator>().SetTrigger("Attack");
                 yield return new WaitForSeconds(attackTime);
             }
             else
             {
-                print("Saiu da coroutine de ataque");
+                //print("Saiu da coroutine de ataque");
                 canWalk = true;
                 alreadyAttacking = false;
                 yield break;
