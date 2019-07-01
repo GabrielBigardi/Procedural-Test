@@ -9,6 +9,8 @@ TagManager:
   - Sword
   - Slime
   - Projectile
+  - Heart
+  - TriggerExit
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - Player
   - Projectile
   - Enemy
-  - 
+  - Buraco
   - 
   - 
   - 
@@ -43,9 +45,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: AbaixoTudo
+    uniqueID: 711048697
+    locked: 0
+  - name: Abaixo
+    uniqueID: 617605893
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: Player
     uniqueID: 746430381
+    locked: 0
+  - name: AcimaTudo
+    uniqueID: 2874570847
     locked: 0

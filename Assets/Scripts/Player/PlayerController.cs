@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -56,6 +55,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        }
+
+
         mov = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         if (canMove)
@@ -104,7 +109,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(Attack_CR());
         }
 
-        if (!isDodging && !isAttacking && Input.GetKeyDown(KeyCode.LeftShift))
+        if (!isFalling && !isDodging && !isAttacking && Input.GetKeyDown(KeyCode.LeftShift))
         {
             StartCoroutine(Dodge_CR());
         }
@@ -126,7 +131,8 @@ public class PlayerController : MonoBehaviour
 	void OnTriggerEnter2D(Collider2D col){
 		if(col.tag == "Bounds"){
 			CameraB.Instance.SetBounds(col.GetComponent<BoxCollider2D>());
-		}
+            col.GetComponent<BoundActivate>().SpawnRoom();
+        }
         if(col.tag == "Buraco")
         {
             //mov = Vector2.zero;
@@ -204,6 +210,39 @@ public class PlayerController : MonoBehaviour
             //Vector2 direction = col.transform.position - transform.position;
             //ChargeBack(direction * chargebackAmount);
         }
+        if(col.tag == "TriggerExit")
+        {
+            Vector2 tempPos;
+
+            switch (col.transform.name)
+            {
+
+                case "Right":
+                    tempPos = new Vector2(transform.position.x + 15f, transform.position.y);
+                    StartCoroutine(ChangeRoom_CR(tempPos));
+                    break;
+
+                case "Left":
+                    tempPos = new Vector2(transform.position.x - 15f, transform.position.y);
+                    StartCoroutine(ChangeRoom_CR(tempPos));
+                    break;
+
+                case "Up":
+                    tempPos = new Vector2(transform.position.x, transform.position.y + 15f);
+                    StartCoroutine(ChangeRoom_CR(tempPos));
+                    break;
+
+                case "Down":
+                    tempPos = new Vector2(transform.position.x, transform.position.y - 15f);
+                    StartCoroutine(ChangeRoom_CR(tempPos));
+                    break;
+
+                default:
+                    break;
+            }
+
+            
+        }
 	}
 
     void CheckAttack()
@@ -211,12 +250,12 @@ public class PlayerController : MonoBehaviour
         if (GetComponent<SpriteRenderer>().flipX)
         {
             attackObject[0].gameObject.SetActive(true);
-            print("Atacando...");
+            //print("Atacando...");
             RaycastHit2D hit = Physics2D.Raycast(attackObject[0].position, Vector2.left, 0.5f);
             
             if (hit.collider != null)
             {
-                print("0 Acertou em: " + hit.collider.gameObject.name);
+                //print("0 Acertou em: " + hit.collider.gameObject.name);
                 if (hit.collider.gameObject.GetComponent<EnemyHealth>() != null)
                 {
                     //hit.collider.gameObject.GetComponent<Animator>().SetTrigger("Hurt");
@@ -224,21 +263,33 @@ public class PlayerController : MonoBehaviour
                     print("Inimigo Acertado com dano de:" + randomDamage);
                     hit.collider.gameObject.GetComponent<EnemyHealth>().TakeDamage(randomDamage);
                 }
+
+                if (hit.collider.gameObject.GetComponent<Crate>() != null)
+                {
+                    print("Inimigo Acertado");
+                    hit.collider.gameObject.GetComponent<Animator>().SetTrigger("Next");
+                }
             }
         }
         else
         {
             attackObject[1].gameObject.SetActive(true);
-            print("Atacando...");
+            //print("Atacando...");
             RaycastHit2D hit = Physics2D.Raycast(attackObject[1].position, Vector2.right, 0.5f);
             if (hit.collider != null)
             {
-                print("1 Acertou em: " + hit.collider.gameObject.name);
+                //print("1 Acertou em: " + hit.collider.gameObject.name);
                 if (hit.collider.gameObject.GetComponent<EnemyHealth>() != null)
                 {
                     print("Inimigo Acertado");
                     //hit.collider.gameObject.GetComponent<Animator>().SetTrigger("Hurt");
                     hit.collider.gameObject.GetComponent<EnemyHealth>().TakeDamage(50);
+                }
+
+                if (hit.collider.gameObject.GetComponent<Crate>() != null)
+                {
+                    print("Inimigo Acertado");
+                    hit.collider.gameObject.GetComponent<Animator>().SetTrigger("Next");
                 }
             }
         }
@@ -288,6 +339,17 @@ public class PlayerController : MonoBehaviour
         canMove = true;
         canAttack = true;
         isFalling = false;
+		isDodging = false;
+		canTurn = true;
+    }
+
+    public IEnumerator ChangeRoom_CR(Vector2 position)
+    {
+        //fica preto
+        yield return new WaitForSeconds(1f);
+        transform.position = position;
+        //fica normal
+
     }
 
     //public void ChargeBack(Vector2 direction)

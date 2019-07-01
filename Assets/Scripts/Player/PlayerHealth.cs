@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public float maxHealth = 10;
+    public float maxHealth = 3;
     public float curHealth = 3;
 
     public Sprite heartImage;
@@ -83,14 +83,14 @@ public class PlayerHealth : MonoBehaviour
     {
         if (on == 1)
         {
-            GetComponent<PlayerController>().isAttacking = false;
+            //GetComponent<PlayerController>().isAttacking = false;
             GetComponent<PlayerController>().canAttack = false;
             GetComponent<PlayerController>().canMove = false;
             GetComponent<PlayerController>().canTurn = false;
         }
         if (on == 0)
         {
-            GetComponent<PlayerController>().isAttacking = true;
+            //GetComponent<PlayerController>().isAttacking = true;
             GetComponent<PlayerController>().canAttack = true;
             GetComponent<PlayerController>().canTurn = true;
             GetComponent<PlayerController>().canMove = true;

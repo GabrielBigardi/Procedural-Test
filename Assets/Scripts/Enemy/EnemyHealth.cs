@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -12,7 +10,12 @@ public class EnemyHealth : MonoBehaviour
         curLife -= amount;
         if(curLife <= 0)
         {
-            GetComponent<BoxCollider2D>().enabled = false;
+            Collider2D[] colliders;
+            colliders = GetComponents<Collider2D>();
+            foreach (Collider2D col in colliders)
+            {
+                col.enabled = false;
+            }
             GetComponent<Animator>().SetTrigger("Hurt");
             GetComponent<Animator>().SetBool("Death", true);
         }

@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 2371505714219120307}
   - component: {fileID: 2371505714219120311}
   - component: {fileID: 2371505714219120308}
+  - component: {fileID: 6870043644847355365}
   m_Layer: 10
   m_Name: SkeletonPrefab
   m_TagString: Untagged
@@ -101,9 +102,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingLayerID: 746430381
+  m_SortingLayer: 1
+  m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: 7d22173830a30024da29bf767e07fc17, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -198,6 +199,27 @@ MonoBehaviour:
   bulletSpeed: 7
   canWalk: 1
   alreadyAttacking: 0
+--- !u!50 &6870043644847355365
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2371505714219120306}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 9999
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &4274930901127526888
 GameObject:
   m_ObjectHideFlags: 0

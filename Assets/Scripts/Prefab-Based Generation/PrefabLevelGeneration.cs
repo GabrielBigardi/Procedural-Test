@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PrefabLevelGeneration : MonoBehaviour
@@ -129,8 +128,8 @@ public class PrefabLevelGeneration : MonoBehaviour
                 continue;
             }
             Vector2 drawPos = room.gridPos;
-            drawPos.x *= 19.995f;
-            drawPos.y *= 9.995f;
+            drawPos.x *= 40f;
+            drawPos.y *= 20f;
             MapPrefabSelector mapper = Object.Instantiate(roomWhiteObj, drawPos, Quaternion.identity, generatedLevelHolder).GetComponent<MapPrefabSelector>();
             mapper.type = room.type;
             mapper.up = room.doorTop;

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraB : MonoBehaviour
 {
@@ -32,12 +30,12 @@ public class CameraB : MonoBehaviour
 
     void Start()
     {
-        minBounds = boundBox.bounds.min;
-        maxBounds = boundBox.bounds.max;
-
-        theCamera = GetComponent<Camera>();
-        halfHeight = theCamera.orthographicSize;
-        halfWidth = halfHeight * Screen.width / Screen.height;
+        //minBounds = boundBox.bounds.min;
+        //maxBounds = boundBox.bounds.max;
+        //
+        //theCamera = GetComponent<Camera>();
+        //halfHeight = theCamera.orthographicSize;
+        //halfWidth = halfHeight * Screen.width / Screen.height;
 
     }
 
@@ -60,5 +58,9 @@ public class CameraB : MonoBehaviour
 		
 		minBounds = boundBox.bounds.min;
 		maxBounds = boundBox.bounds.max;
-	}
+
+        theCamera = GetComponent<Camera>();
+        halfHeight = theCamera.orthographicSize;
+        halfWidth = halfHeight * Screen.width / Screen.height;
+    }
 }
