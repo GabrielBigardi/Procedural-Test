@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
         {
             UpdateSwordAttributes();
         }
+
+        StartCoroutine(Start_CR());
     }
 
     // Update is called once per frame
@@ -373,10 +375,13 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    //public void ChargeBack(Vector2 direction)
-    //{
-    //    transform.position = -direction;
-    //}
+    IEnumerator Start_CR()
+    {
+        yield return new WaitForSeconds(0.5f);
+        transform.position = new Vector2(0f, 0f);
+        FadeManager.Instance.FadeOUT();
+
+    }
 
     IEnumerator Attack_CR()
     {
