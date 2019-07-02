@@ -141,15 +141,15 @@ public class PlayerController : MonoBehaviour
             DropManager.Instancia.DropSword(transform.position);
         }
 
-        if (!isAttacking && !isDodging && Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            StartCoroutine(Attack_CR());
-        }
-
-        if (!isFalling && !isDodging && !isAttacking && Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            StartCoroutine(Dodge_CR());
-        }
+        //if (!isAttacking && !isDodging && Input.GetKeyDown(KeyCode.LeftControl))
+        //{
+        //    StartCoroutine(Attack_CR());
+        //}
+        //
+        //if (!isFalling && !isDodging && !isAttacking && Input.GetKeyDown(KeyCode.LeftShift))
+        //{
+        //    StartCoroutine(Dodge_CR());
+        //}
 
 
 
@@ -354,6 +354,22 @@ public class PlayerController : MonoBehaviour
     {
         attackObject[0].gameObject.SetActive(false);
         attackObject[1].gameObject.SetActive(false);
+    }
+
+    public void Attack()
+    {
+        if (!isAttacking && !isDodging)
+        {
+            StartCoroutine(Attack_CR());
+        }
+    }
+
+    public void Dodge()
+    {
+        if (!isFalling && !isDodging && !isAttacking)
+        {
+            StartCoroutine(Dodge_CR());
+        }
     }
 
     public void AttackMovement(int on)
