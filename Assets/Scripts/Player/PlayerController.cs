@@ -38,8 +38,8 @@ public class PlayerController : MonoBehaviour
 
     Vector2 dodgeMov;
 
-    //float fHorizontal = 0.0f;
-    //float fVertical = 0.0f;
+    float fHorizontal = 0.0f;
+    float fVertical = 0.0f;
 
 
     public Transform[] attackObject;
@@ -62,31 +62,31 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        //print(CrossPlatformInputManager.GetAxis("Horizontal"));
-        //if(CrossPlatformInputManager.GetAxisRaw("Horizontal") >= 0.5f)
-        //{
-        //    fHorizontal = 1.0f;
-        //}
-        //if (CrossPlatformInputManager.GetAxisRaw("Horizontal") <= -0.5f)
-        //{
-        //    fHorizontal = -1.0f;
-        //}
-        //if (CrossPlatformInputManager.GetAxisRaw("Vertical") >= 0.5f)
-        //{
-        //    fVertical = 1.0f;
-        //}
-        //if (CrossPlatformInputManager.GetAxisRaw("Vertical") <= -0.5f)
-        //{
-        //    fVertical = -1.0f;
-        //}
-        //if (CrossPlatformInputManager.GetAxisRaw("Horizontal") == 0f)
-        //{
-        //    fHorizontal = 0.0f;
-        //}
-        //if (CrossPlatformInputManager.GetAxisRaw("Vertical") == 0f)
-        //{
-        //    fVertical = 0.0f;
-        //}
+
+        if(CrossPlatformInputManager.GetAxisRaw("Horizontal") >= 0.5f)
+        {
+            fHorizontal = 1.0f;
+        }
+        if (CrossPlatformInputManager.GetAxisRaw("Horizontal") <= -0.5f)
+        {
+            fHorizontal = -1.0f;
+        }
+        if (CrossPlatformInputManager.GetAxisRaw("Vertical") >= 0.5f)
+        {
+            fVertical = 1.0f;
+        }
+        if (CrossPlatformInputManager.GetAxisRaw("Vertical") <= -0.5f)
+        {
+            fVertical = -1.0f;
+        }
+        if (CrossPlatformInputManager.GetAxisRaw("Horizontal") == 0f)
+        {
+            fHorizontal = 0.0f;
+        }
+        if (CrossPlatformInputManager.GetAxisRaw("Vertical") == 0f)
+        {
+            fVertical = 0.0f;
+        }
 
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
@@ -94,13 +94,13 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        mov = new Vector2(CrossPlatformInputManager.GetAxisRaw("Horizontal"), CrossPlatformInputManager.GetAxisRaw("Vertical"));
-        //mov = new Vector2(fHorizontal, fVertical);
+        //mov = new Vector2(CrossPlatformInputManager.GetAxisRaw("Horizontal"), CrossPlatformInputManager.GetAxisRaw("Vertical"));
+        mov = new Vector2(fHorizontal, fVertical);
 
         if (canMove)
         {
-            anim.SetFloat("MovX", Mathf.Abs(CrossPlatformInputManager.GetAxisRaw("Horizontal")));
-            //anim.SetFloat("MovX", Mathf.Abs(fHorizontal));
+            //anim.SetFloat("MovX", Mathf.Abs(CrossPlatformInputManager.GetAxisRaw("Horizontal")));
+            anim.SetFloat("MovX", Mathf.Abs(fHorizontal));
         }
 
         if(mov != Vector2.zero)
@@ -113,13 +113,13 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (canTurn && CrossPlatformInputManager.GetAxisRaw("Horizontal") < 0)
-        //if (canTurn && fHorizontal < 0)
+        //if (canTurn && CrossPlatformInputManager.GetAxisRaw("Horizontal") < 0)
+        if (canTurn && fHorizontal < 0)
         {
             GetComponent<SpriteRenderer>().flipX = true;
         }
-        if (canTurn && CrossPlatformInputManager.GetAxisRaw("Horizontal") > 0)
-        //if (canTurn && fHorizontal > 0)
+        //if (canTurn && CrossPlatformInputManager.GetAxisRaw("Horizontal") > 0)
+        if (canTurn && fHorizontal > 0)
         {
             GetComponent<SpriteRenderer>().flipX = false;
         }

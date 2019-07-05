@@ -55,7 +55,7 @@ public class PlayerHealth : MonoBehaviour
         if (curHealth <= 0)
         {
             //    GetComponent<Animator>().SetTrigger("Hurt");
-            //GetComponent<Animator>().SetBool("Death", true);
+            GetComponent<Animator>().SetBool("Death", true);
             Time.timeScale = 0f;
         }
 
