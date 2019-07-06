@@ -942,6 +942,7 @@ MonoBehaviour:
   attackObject:
   - {fileID: 1716038000}
   - {fileID: 235718453}
+  curPortaManager: {fileID: 0}
 --- !u!50 &551407158
 Rigidbody2D:
   serializedVersion: 4

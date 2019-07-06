@@ -10,6 +10,12 @@ public class EnemyHealth : MonoBehaviour
         curLife -= amount;
         if(curLife <= 0)
         {
+            PlayerController.Instance.curPortaManager.currentEnemies--;
+            PlayerController.Instance.curPortaManager.killedEnemies++;
+
+            if (PlayerController.Instance.curPortaManager.currentEnemies <= 0)
+                PlayerController.Instance.curPortaManager.AbrirPortas();
+
             Collider2D[] colliders;
             colliders = GetComponents<Collider2D>();
             foreach (Collider2D col in colliders)

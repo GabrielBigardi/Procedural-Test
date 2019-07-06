@@ -12,6 +12,7 @@ TextureImporter:
     21300014: Saidas_7
     21300016: Saidas_8
     21300018: Saidas_9
+    21300020: Saidas_10
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -273,7 +274,7 @@ TextureImporter:
         width: 30
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -293,13 +294,33 @@ TextureImporter:
         width: 36
         height: 46
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: ad10eec350a562f439575674b76451c1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Saidas_10
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 19
+        width: 56
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c5483c2d76c4bc408246d4158e2950f
       vertices: []
       indices: 
       edges: []

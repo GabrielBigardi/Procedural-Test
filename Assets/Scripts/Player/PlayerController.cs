@@ -4,6 +4,9 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : MonoBehaviour
 {
+
+    public static PlayerController Instance;
+
     Animator anim;
     Rigidbody2D rgbd;
 
@@ -43,6 +46,16 @@ public class PlayerController : MonoBehaviour
 
 
     public Transform[] attackObject;
+
+    public PortaManager curPortaManager;
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else if (Instance != this)
+            Destroy(gameObject);
+    }
 
 
     void Start()
@@ -141,6 +154,11 @@ public class PlayerController : MonoBehaviour
             DropManager.Instancia.DropSword(transform.position);
         }
 
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            //PortaManager.Instance.AbrirPortas();
+        }
+
         //if (!isAttacking && !isDodging && Input.GetKeyDown(KeyCode.LeftControl))
         //{
         //    StartCoroutine(Attack_CR());
@@ -168,6 +186,7 @@ public class PlayerController : MonoBehaviour
 	void OnTriggerEnter2D(Collider2D col){
         if(col.tag == "Prefab1")
         {
+            curPortaManager = col.transform.GetChild(0).gameObject.GetComponent<PortaManager>();
             GameObject go = col.transform.GetChild(0).gameObject;
             go.SetActive(true);
         }

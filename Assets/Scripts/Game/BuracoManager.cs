@@ -48,6 +48,7 @@ public class BuracoManager : MonoBehaviour
     {
         Instantiate(prefabInimigo, pos, Quaternion.identity, inimigoHolder);
         curInimigos++;
+        GetComponent<PortaManager>().currentEnemies++;
     }
 
     void SpawnObstacle(Vector2 pos)

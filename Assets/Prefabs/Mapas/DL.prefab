@@ -1959,7 +1959,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3574251872793473649
 Transform:
   m_ObjectHideFlags: 0
@@ -2076,6 +2076,7 @@ GameObject:
   - component: {fileID: 196776186557750979}
   - component: {fileID: 9223011455326784689}
   - component: {fileID: 5209174049517312574}
+  - component: {fileID: 5672112632214406185}
   m_Layer: 0
   m_Name: DL
   m_TagString: Untagged
@@ -2211,6 +2212,35 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5672112632214406185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7216721017336269943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfcd957d1f28959458a4c5fe1c8a13ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portasObjeto:
+  - {fileID: 7668154271192339882}
+  - {fileID: 2685602334552151956}
+  - {fileID: 6173965355273245780}
+  - {fileID: 2846616264513108558}
+  portasAbertas:
+  - {fileID: 21300004, guid: d3199aecd662f0842b4efc1afffc6b02, type: 3}
+  - {fileID: 21300006, guid: d3199aecd662f0842b4efc1afffc6b02, type: 3}
+  - {fileID: 21300014, guid: d3199aecd662f0842b4efc1afffc6b02, type: 3}
+  - {fileID: 21300020, guid: d3199aecd662f0842b4efc1afffc6b02, type: 3}
+  saidaColliders:
+  - {fileID: 6370011537719367079}
+  - {fileID: 7208515123297476101}
+  - {fileID: 9030023392173376533}
+  - {fileID: 1669716305138626390}
+  killedEnemies: 0
+  currentEnemies: 0
 --- !u!1 &7441081126178796926
 GameObject:
   m_ObjectHideFlags: 0
